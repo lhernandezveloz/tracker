@@ -9,7 +9,7 @@ https://github.com/leonal17/tracker-server-Api
 2. To run the web api locally you have to do:
   - Follow the instruction on ```tracker-server-Api/README.md```.
   - Open a new tab in the terminal and run ```ngrok http 3000```.
-  - Copy the url provided in the terminal and use it to make api call.
+  - Copy the ```URL``` Go to ```tracker/src/api/tracker.js``` and set ```baseURL : 'URL Copied'```
 
 ## Repository
 
