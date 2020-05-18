@@ -1,42 +1,33 @@
-import React, {useState, useContext} from 'react';
-import {View, StyleSheet} from 'react-native';
-import {Text, Input, Button} from 'react-native-elements';
-import Spacer from '../components/spacer';
-import { Context as AuthContext} from '../context/authContext';
+import React, { useContext, useEffect } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { NavigationEvents } from 'react-navigation';
+import { Context as AuthContext } from '../context/authContext';
+import AuthForm from '../components/authForm';
+import NavLink from '../components/NavLink';
 
-const SignupScreen = ({navigation}) => {
+const SignupScreen = ({ navigation }) => {
 
-    const {state, signup} = useContext(AuthContext);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const {state, signup, cleanErrorMessage, locanSignin} = useContext(AuthContext);
+
+    useEffect(() => {
+        locanSignin();
+    }, []);
 
     return ( 
         <View style={styles.container}>
-            <Spacer>
-                <Text style={styles.titleStyle}>Sign Up for Tracker</Text>
-            </Spacer>
-                <Input 
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    label="Email"
-                    value={email}
-                    onChangeText={setEmail}
-                />
-                <Spacer/>
-                <Input 
-                    secureTextEntry
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    label="Password"
-                    value={password}
-                    onChangeText={setPassword}
-                />
-                <Spacer>
-                <Button 
-                title="Sign Up"
-                onPress={() => signup({email, password})}
-                />
-                </Spacer>
+            <NavigationEvents 
+                onWillFocus={cleanErrorMessage}
+            />
+            <AuthForm 
+                title="Sign Up for Tracker"
+                btnTitle="Sign up"
+                errorMessage={state.errorMessage}
+                onSubmmit={signup}
+            />
+            <NavLink
+                routeName="Signin"
+                text="Already have an account? Sign In instead."
+            />
         </View>
     );
 };
@@ -49,9 +40,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         marginBottom: 250
-    },
-    titleStyle:{
-        fontSize: 28
     }
 });
 
